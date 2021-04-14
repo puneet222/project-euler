@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-var memo = make(map[int]int)
+var memo = make(map[string]int)
 
 func max(n1 int, n2 int) int {
 	if n1 > n2 {
@@ -34,13 +34,15 @@ func findMaxSumPaths(triangle *[][]int, row int, col int) int{
 	if row >= totalRows {
 		return 0
 	}
-	if val, ok := memo[(*triangle)[row][col]]; ok {
+	curr := strconv.Itoa(row) + "-" + strconv.Itoa(col)
+	if val, ok := memo[curr]; ok {
 		return val
 	}
 	sum := (*triangle)[row][col]
 	suml := findMaxSumPaths(triangle, row+1, col)
 	sumr := findMaxSumPaths(triangle, row+1, col+1)
 	sum  += max(suml, sumr)
+	memo[curr] = sum
 	return sum
 }
 
